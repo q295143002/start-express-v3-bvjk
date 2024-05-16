@@ -1,102 +1,1359 @@
-var express = require('express');
+<!DOCTYPE html>
+<html lang="en-XX" data-cargo="locale:en-XX,language:enXX,currency:USD,contextType:h5,site:EN,group:Trip">
+<script>
+    if (typeof (history) !== 'undefined') {
+        if (history.state && history.state.url) {
+            history.state.url = '';
+            history.state.as = '';
+        }
+        history.pushState = () => { };
+        history.replaceState = () => { };
+    }
+</script>
 
-var app = express();
+<head>
+    <meta charSet="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover" />
+    <meta name="next-head-count" content="2" />
+    <style type="text/css">
+        #__next {
+            max-width: 640px;
+            margin: 0 auto;
+        }
+    </style>
+    <script>!(function (x) { function w() { var v, u, t, tes, s = x.document, r = s.documentElement, a = r.getBoundingClientRect().width, font, value = 20; if (!v && !u) { var n = !!x.navigator.appVersion.match(/AppleWebKit.*Mobile.*/); v = x.devicePixelRatio; tes = x.devicePixelRatio; (v = n ? v : 1), (u = 1 / v) }; if (a >= 540) { a = 540; }; font = (a / 375) * value; r.style.fontSize = font.toFixed(2) + "px" }; x.addEventListener("resize", function () { w() }); w() })(window)</script>
+    <link rel="preload" href="http://ak-d.tripcdn.com/images/0352312000apmcle4BFE3_C_1000_750_Q50.jpg_.webp"
+        as="image" />
+    <link rel="preload" href="https://ak-d.tripcdn.com/images/0352312000apmcle4BFE3_C_1000_750_Q50.jpg_.webp"
+        as="image" />
+    <style type="text/css">
+        img[src=""] {
+            opacity: 0;
+        }
 
-app.get('*', (req, res) => {
-    res.header('Content-Type', 'text/html;charset=utf-8')
-    console.log('test');
+        .taro-img {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            font-size: 0;
+            width: 320px;
+            height: 240px;
+        }
 
-    res.send(`<!DOCTYPE html>
-    <html>
+        .taro-img.taro-img__widthfix {
+            height: 100%;
+        }
+
+        .taro-img__mode-scaletofill {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        .taro-img__mode-aspectfit {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+
+        .taro-img__mode-aspectfill {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .taro-img__mode-widthfix {
+            width: 100%;
+        }
+
+        .taro-img__mode-top {
+            width: 100%;
+        }
+
+        .taro-img__mode-bottom {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .taro-img__mode-left {
+            height: 100%;
+        }
+
+        .taro-img__mode-right {
+            position: absolute;
+            height: 100%;
+            right: 0;
+        }
+
+        .taro-img__mode-topright {
+            position: absolute;
+            right: 0;
+        }
+
+        .taro-img__mode-bottomleft {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .taro-img__mode-bottomright {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+    <style type="text/css">
+        .swiper-container-wrapper {
+            height: 150px
+        }
+
+        .swiper-container {
+            height: 100%
+        }
+
+        .swiper-pagination {
+            font-size: 0
+        }
+
+        .swiper-pagination-bullet {
+            opacity: 1
+        }
+    </style>
+    <style type="text/css">
+        @font-face {
+            font-family: swiper-icons;
+            src: url('data:application/font-woff;charset=utf-8;base64, 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') format('woff');
+            font-weight: 400;
+            font-style: normal
+        }
+
+        :root {
+            --swiper-theme-color: #007aff
+        }
+
+        .swiper-container {
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+            overflow: hidden;
+            list-style: none;
+            padding: 0;
+            z-index: 1
+        }
+
+        .swiper-container-vertical>.swiper-wrapper {
+            flex-direction: column
+        }
+
+        .swiper-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            display: flex;
+            transition-property: transform;
+            box-sizing: content-box
+        }
+
+        .swiper-container-android .swiper-slide,
+        .swiper-wrapper {
+            transform: translate3d(0px, 0, 0)
+        }
+
+        .swiper-container-multirow>.swiper-wrapper {
+            flex-wrap: wrap
+        }
+
+        .swiper-container-multirow-column>.swiper-wrapper {
+            flex-wrap: wrap;
+            flex-direction: column
+        }
+
+        .swiper-container-free-mode>.swiper-wrapper {
+            transition-timing-function: ease-out;
+            margin: 0 auto
+        }
+
+        .swiper-container-pointer-events {
+            touch-action: pan-y
+        }
+
+        .swiper-container-pointer-events.swiper-container-vertical {
+            touch-action: pan-x
+        }
+
+        .swiper-slide {
+            flex-shrink: 0;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition-property: transform
+        }
+
+        .swiper-slide-invisible-blank {
+            visibility: hidden
+        }
+
+        .swiper-container-autoheight,
+        .swiper-container-autoheight .swiper-slide {
+            height: auto
+        }
+
+        .swiper-container-autoheight .swiper-wrapper {
+            align-items: flex-start;
+            transition-property: transform, height
+        }
+
+        .swiper-container-3d {
+            perspective: 1200px
+        }
+
+        .swiper-container-3d .swiper-cube-shadow,
+        .swiper-container-3d .swiper-slide,
+        .swiper-container-3d .swiper-slide-shadow-bottom,
+        .swiper-container-3d .swiper-slide-shadow-left,
+        .swiper-container-3d .swiper-slide-shadow-right,
+        .swiper-container-3d .swiper-slide-shadow-top,
+        .swiper-container-3d .swiper-wrapper {
+            transform-style: preserve-3d
+        }
+
+        .swiper-container-3d .swiper-slide-shadow-bottom,
+        .swiper-container-3d .swiper-slide-shadow-left,
+        .swiper-container-3d .swiper-slide-shadow-right,
+        .swiper-container-3d .swiper-slide-shadow-top {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10
+        }
+
+        .swiper-container-3d .swiper-slide-shadow-left {
+            background-image: linear-gradient(to left, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
+        }
+
+        .swiper-container-3d .swiper-slide-shadow-right {
+            background-image: linear-gradient(to right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
+        }
+
+        .swiper-container-3d .swiper-slide-shadow-top {
+            background-image: linear-gradient(to top, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
+        }
+
+        .swiper-container-3d .swiper-slide-shadow-bottom {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0))
+        }
+
+        .swiper-container-css-mode>.swiper-wrapper {
+            overflow: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none
+        }
+
+        .swiper-container-css-mode>.swiper-wrapper::-webkit-scrollbar {
+            display: none
+        }
+
+        .swiper-container-css-mode>.swiper-wrapper>.swiper-slide {
+            scroll-snap-align: start start
+        }
+
+        .swiper-container-horizontal.swiper-container-css-mode>.swiper-wrapper {
+            scroll-snap-type: x mandatory
+        }
+
+        .swiper-container-vertical.swiper-container-css-mode>.swiper-wrapper {
+            scroll-snap-type: y mandatory
+        }
+
+        :root {
+            --swiper-navigation-size: 44px
+        }
+
+        .swiper-button-next,
+        .swiper-button-prev {
+            position: absolute;
+            top: 50%;
+            width: calc(var(--swiper-navigation-size)/ 44 * 27);
+            height: var(--swiper-navigation-size);
+            margin-top: calc(0px - (var(--swiper-navigation-size)/ 2));
+            z-index: 10;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--swiper-navigation-color, var(--swiper-theme-color))
+        }
+
+        .swiper-button-next.swiper-button-disabled,
+        .swiper-button-prev.swiper-button-disabled {
+            opacity: .35;
+            cursor: auto;
+            pointer-events: none
+        }
+
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-family: swiper-icons;
+            font-size: var(--swiper-navigation-size);
+            text-transform: none !important;
+            letter-spacing: 0;
+            text-transform: none;
+            font-variant: initial;
+            line-height: 1
+        }
+
+        .swiper-button-prev,
+        .swiper-container-rtl .swiper-button-next {
+            left: 10px;
+            right: auto
+        }
+
+        .swiper-button-prev:after,
+        .swiper-container-rtl .swiper-button-next:after {
+            content: 'prev'
+        }
+
+        .swiper-button-next,
+        .swiper-container-rtl .swiper-button-prev {
+            right: 10px;
+            left: auto
+        }
+
+        .swiper-button-next:after,
+        .swiper-container-rtl .swiper-button-prev:after {
+            content: 'next'
+        }
+
+        .swiper-button-next.swiper-button-white,
+        .swiper-button-prev.swiper-button-white {
+            --swiper-navigation-color: #ffffff
+        }
+
+        .swiper-button-next.swiper-button-black,
+        .swiper-button-prev.swiper-button-black {
+            --swiper-navigation-color: #000000
+        }
+
+        .swiper-button-lock {
+            display: none
+        }
+
+        .swiper-pagination {
+            position: absolute;
+            text-align: center;
+            transition: .3s opacity;
+            transform: translate3d(0, 0, 0);
+            z-index: 10
+        }
+
+        .swiper-pagination.swiper-pagination-hidden {
+            opacity: 0
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-bullets,
+        .swiper-pagination-custom,
+        .swiper-pagination-fraction {
+            bottom: 10px;
+            left: 0;
+            width: 100%
+        }
+
+        .swiper-pagination-bullets-dynamic {
+            overflow: hidden;
+            font-size: 0
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+            transform: scale(.33);
+            position: relative
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active {
+            transform: scale(1)
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-main {
+            transform: scale(1)
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev {
+            transform: scale(.66)
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-prev-prev {
+            transform: scale(.33)
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next {
+            transform: scale(.66)
+        }
+
+        .swiper-pagination-bullets-dynamic .swiper-pagination-bullet-active-next-next {
+            transform: scale(.33)
+        }
+
+        .swiper-pagination-bullet {
+            width: 8px;
+            height: 8px;
+            display: inline-block;
+            border-radius: 50%;
+            background: #000;
+            opacity: .2
+        }
+
+        button.swiper-pagination-bullet {
+            border: none;
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+            -webkit-appearance: none;
+            appearance: none
+        }
+
+        .swiper-pagination-clickable .swiper-pagination-bullet {
+            cursor: pointer
+        }
+
+        .swiper-pagination-bullet-active {
+            opacity: 1;
+            background: var(--swiper-pagination-color, var(--swiper-theme-color))
+        }
+
+        .swiper-container-vertical>.swiper-pagination-bullets {
+            right: 10px;
+            top: 50%;
+            transform: translate3d(0px, -50%, 0)
+        }
+
+        .swiper-container-vertical>.swiper-pagination-bullets .swiper-pagination-bullet {
+            margin: 6px 0;
+            display: block
+        }
+
+        .swiper-container-vertical>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px
+        }
+
+        .swiper-container-vertical>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+            display: inline-block;
+            transition: .2s transform, .2s top
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
+            margin: 0 4px
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic {
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-bullets.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+            transition: .2s transform, .2s left
+        }
+
+        .swiper-container-horizontal.swiper-container-rtl>.swiper-pagination-bullets-dynamic .swiper-pagination-bullet {
+            transition: .2s transform, .2s right
+        }
+
+        .swiper-pagination-progressbar {
+            background: rgba(0, 0, 0, .25);
+            position: absolute
+        }
+
+        .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+            background: var(--swiper-pagination-color, var(--swiper-theme-color));
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            transform: scale(0);
+            transform-origin: left top
+        }
+
+        .swiper-container-rtl .swiper-pagination-progressbar .swiper-pagination-progressbar-fill {
+            transform-origin: right top
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-progressbar,
+        .swiper-container-vertical>.swiper-pagination-progressbar.swiper-pagination-progressbar-opposite {
+            width: 100%;
+            height: 4px;
+            left: 0;
+            top: 0
+        }
+
+        .swiper-container-horizontal>.swiper-pagination-progressbar.swiper-pagination-progressbar-opposite,
+        .swiper-container-vertical>.swiper-pagination-progressbar {
+            width: 4px;
+            height: 100%;
+            left: 0;
+            top: 0
+        }
+
+        .swiper-pagination-white {
+            --swiper-pagination-color: #ffffff
+        }
+
+        .swiper-pagination-black {
+            --swiper-pagination-color: #000000
+        }
+
+        .swiper-pagination-lock {
+            display: none
+        }
+
+        .swiper-scrollbar {
+            border-radius: 10px;
+            position: relative;
+            -ms-touch-action: none;
+            background: rgba(0, 0, 0, .1)
+        }
+
+        .swiper-container-horizontal>.swiper-scrollbar {
+            position: absolute;
+            left: 1%;
+            bottom: 3px;
+            z-index: 50;
+            height: 5px;
+            width: 98%
+        }
+
+        .swiper-container-vertical>.swiper-scrollbar {
+            position: absolute;
+            right: 3px;
+            top: 1%;
+            z-index: 50;
+            width: 5px;
+            height: 98%
+        }
+
+        .swiper-scrollbar-drag {
+            height: 100%;
+            width: 100%;
+            position: relative;
+            background: rgba(0, 0, 0, .5);
+            border-radius: 10px;
+            left: 0;
+            top: 0
+        }
+
+        .swiper-scrollbar-cursor-drag {
+            cursor: move
+        }
+
+        .swiper-scrollbar-lock {
+            display: none
+        }
+
+        .swiper-zoom-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center
+        }
+
+        .swiper-zoom-container>canvas,
+        .swiper-zoom-container>img,
+        .swiper-zoom-container>svg {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain
+        }
+
+        .swiper-slide-zoomed {
+            cursor: move
+        }
+
+        .swiper-lazy-preloader {
+            width: 42px;
+            height: 42px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-left: -21px;
+            margin-top: -21px;
+            z-index: 10;
+            transform-origin: 50%;
+            animation: swiper-preloader-spin 1s infinite linear;
+            box-sizing: border-box;
+            border: 4px solid var(--swiper-preloader-color, var(--swiper-theme-color));
+            border-radius: 50%;
+            border-top-color: transparent
+        }
+
+        .swiper-lazy-preloader-white {
+            --swiper-preloader-color: #fff
+        }
+
+        .swiper-lazy-preloader-black {
+            --swiper-preloader-color: #000
+        }
+
+        @keyframes swiper-preloader-spin {
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+
+        .swiper-container .swiper-notification {
+            position: absolute;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            opacity: 0;
+            z-index: -1000
+        }
+
+        .swiper-container-fade.swiper-container-free-mode .swiper-slide {
+            transition-timing-function: ease-out
+        }
+
+        .swiper-container-fade .swiper-slide {
+            pointer-events: none;
+            transition-property: opacity
+        }
+
+        .swiper-container-fade .swiper-slide .swiper-slide {
+            pointer-events: none
+        }
+
+        .swiper-container-fade .swiper-slide-active,
+        .swiper-container-fade .swiper-slide-active .swiper-slide-active {
+            pointer-events: auto
+        }
+
+        .swiper-container-cube {
+            overflow: visible
+        }
+
+        .swiper-container-cube .swiper-slide {
+            pointer-events: none;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            z-index: 1;
+            visibility: hidden;
+            transform-origin: 0 0;
+            width: 100%;
+            height: 100%
+        }
+
+        .swiper-container-cube .swiper-slide .swiper-slide {
+            pointer-events: none
+        }
+
+        .swiper-container-cube.swiper-container-rtl .swiper-slide {
+            transform-origin: 100% 0
+        }
+
+        .swiper-container-cube .swiper-slide-active,
+        .swiper-container-cube .swiper-slide-active .swiper-slide-active {
+            pointer-events: auto
+        }
+
+        .swiper-container-cube .swiper-slide-active,
+        .swiper-container-cube .swiper-slide-next,
+        .swiper-container-cube .swiper-slide-next+.swiper-slide,
+        .swiper-container-cube .swiper-slide-prev {
+            pointer-events: auto;
+            visibility: visible
+        }
+
+        .swiper-container-cube .swiper-slide-shadow-bottom,
+        .swiper-container-cube .swiper-slide-shadow-left,
+        .swiper-container-cube .swiper-slide-shadow-right,
+        .swiper-container-cube .swiper-slide-shadow-top {
+            z-index: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden
+        }
+
+        .swiper-container-cube .swiper-cube-shadow {
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            width: 100%;
+            height: 100%;
+            opacity: .6;
+            z-index: 0
+        }
+
+        .swiper-container-cube .swiper-cube-shadow:before {
+            content: '';
+            background: #000;
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            filter: blur(50px)
+        }
+
+        .swiper-container-flip {
+            overflow: visible
+        }
+
+        .swiper-container-flip .swiper-slide {
+            pointer-events: none;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            z-index: 1
+        }
+
+        .swiper-container-flip .swiper-slide .swiper-slide {
+            pointer-events: none
+        }
+
+        .swiper-container-flip .swiper-slide-active,
+        .swiper-container-flip .swiper-slide-active .swiper-slide-active {
+            pointer-events: auto
+        }
+
+        .swiper-container-flip .swiper-slide-shadow-bottom,
+        .swiper-container-flip .swiper-slide-shadow-left,
+        .swiper-container-flip .swiper-slide-shadow-right,
+        .swiper-container-flip .swiper-slide-shadow-top {
+            z-index: 0;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden
+        }
+    </style>
+    <style type="text/css">
+        .taro-scroll {
+            -webkit-overflow-scrolling: auto;
+        }
+
+        .taro-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .taro-scroll-view {
+            overflow: hidden;
+        }
+
+        .taro-scroll-view__scroll-x {
+            overflow-x: scroll;
+            overflow-y: hidden;
+        }
+
+        .taro-scroll-view__scroll-y {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+    </style>
+    <style>
+        #__next,
+        body,
+        html {
+            height: 100%;
+        }
+
+        .taro-img__scale-to-fill {
+            background-size: 100% 100%;
+            background-position: 0 0
+        }
+
+        .taro-img__content {
+            height: 100%;
+            width: 100%;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            background-repeat: no-repeat;
+            background-size: contain
+        }
+
+        .taro-text,
+        body,
+        html {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        taro-text-core {
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            user-select: text !important;
+        }
+
+        /*新手欢迎样式覆盖默认*/
+        #tcp-h5-install-coupon-group .tcp-h5-install-pop-counpon .coupon-mid div {
+            box-sizing: content-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: BlinkMacSystemFont, -apple-system, Roboto, Helvetica, Arial, sans-serif !important;
+        }
+
+        span {
+            vertical-align: baseline !important;
+        }
+
+        /* 测试打包 */
+        .m_breadcrumb {
+            color: #0f294d;
+        }
+
+        .m_breadcrumb .m_breadcrumb_separator {
+            margin: 0 0.3rem;
+        }
+
+        .m_breadcrumb .m_breadcrumb_item {
+            color: #3264ff;
+        }
+
+        .m_breadcrumb .m_breadcrumb_item:hover {
+            text-decoration: underline;
+        }
+
+        .product-detail-breadcrumbs {
+            background-color: #fff;
+            height: 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            line-height: 2rem;
+            padding-left: 0.6rem;
+            font-size: 0.6rem;
+            display: flex;
+
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
+
+        .product-detail-breadcrumbs .m_breadcrumb_item {
+            color: #3264ff;
+            text-decoration: none;
+        }
+
+        .product-detail-breadcrumbs .m_breadcrumb_separator {
+            margin: 0 0.3rem;
+        }
+    </style>
+   
+    <link rel="preconnect" href="https://ak-d.tripcdn.com" />
+    <link rel="dns-prefetch" href="https://webresource.tripcdn.com" />
+    <link rel="dns-prefetch" href="https://ak-s.tripcdn.com" />
+    <link rel="dns-prefetch" href="https://m.trip.com" />
+    <script>
+        if (typeof (history) !== 'undefined') {
+            if (history.state && history.state.url) {
+                history.state.url = '';
+                history.state.as = '';
+            }
+            history.pushState = () => { };
+            history.replaceState = () => { };
+        }
+    </script>
+    <title>Discover Hong Kong 5-Day Tourist SIM Card (incl. Macau Data) – Pick up at 10 Retail shops in Hong Kong|
+        Trip.com</title>
+    <meta name="keywords"
+        content="Discover Hong Kong 5-Day Tourist SIM Card  – Pick up at 10 Retail shops in Hong Kong" />
+    <meta name="description"
+        content="Enjoy 3GB Hong Kong &amp; Macau shared data, free csl WIFI service and unlimited Hong Kong local voice calls within first 5 days (Upgraded to 12GB Hong Kong &amp; Macau shared data within first 10 days);HKD$30 Usable value for IDD calls ;Save on dining, attractions and more with e-coupons;Hong Kong Airport and total 11 redemption centers;Real-name Registration for SIM Card has been implemented. Please go to https://rnr.hkcsl.com/csl on your handset to complete Real-name Registration." />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta charSet="utf-8" />
+    <link rel="alternate" href="https://www.trip.com/things-to-do/detail/21535189/" hrefLang="x-default" />
+    <link rel="alternate" href="https://hk.trip.com/things-to-do/detail/21535189/" hrefLang="zh-Hant-HK" />
+    <link rel="alternate" href="https://uk.trip.com/things-to-do/detail/21535189/" hrefLang="en-GB" />
+    <link rel="alternate" href="https://my.trip.com/things-to-do/detail/21535189/" hrefLang="ms" />
+    <link rel="alternate" href="https://sg.trip.com/things-to-do/detail/21535189/" hrefLang="en-SG" />
+    <link rel="alternate" href="https://au.trip.com/things-to-do/detail/21535189/" hrefLang="en-AU" />
+    <link rel="alternate" href="https://kr.trip.com/things-to-do/detail/21535189/" hrefLang="ko" />
+    <link rel="alternate" href="https://jp.trip.com/things-to-do/detail/21535189/" hrefLang="ja" />
+    <link rel="canonical" href="https://www.trip.com/things-to-do/detail/21535189/" />
+    <script
+        type="application/ld+json">{"@context":"https://schema.org/","@type":"Product","name":"Discover Hong Kong 5-Day Tourist SIM Card (incl. Macau Data) – Pick up at 10 Retail shops in Hong Kong","image":["https://ak-d.tripcdn.com/images/0352312000apmcle4BFE3_C_800_450_Q80.jpg","https://ak-d.tripcdn.com/images/0352312000apmcle4BFE3_C_600_450_Q80.jpg","https://ak-d.tripcdn.com/images/0352312000apmcle4BFE3_C_600_600_Q80.jpg"],"description":"Enjoy 3GB Hong Kong & Macau shared data, free csl WIFI service and unlimited Hong Kong local voice calls within first 5 days (Upgraded to 12GB Hong Kong & Macau shared data within first 10 days);HKD$30 Usable value for IDD calls ;Save on dining, attractions and more with e-coupons;Hong Kong Airport and total 11 redemption centers;Real-name Registration for SIM Card has been implemented. Please go to https://rnr.hkcsl.com/csl on your handset to complete Real-name Registration.","review":{"@type":"Review","reviewRating":{"@type":"Rating","ratingValue":4.4,"bestRating":"5"},"author":{"@type":"Person","name":"埃德菲尤尔赵奢"}},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.4","ratingCount":66},"offers":{"@type":"AggregateOffer","lowPrice":5.13,"priceCurrency":"","availability":"http://schema.org/InStock"}}</script>
+    <script
+        type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"/m/"},{"@type":"ListItem","position":2,"name":"Hong Kong Tours & Tickets","item":"/m/things-to-do/hong-kong-58/"},{"@type":"ListItem","position":3,"name":"Search Results","item":"/m/things-to-do/list?pagetype=city&id=58&name=Hong Kong"},{"@type":"ListItem","position":4,"name":"Discover Hong Kong 5-Day Tourist SIM Card (incl. Macau Data) – Pick up at 10 Retail shops in Hong Kong"}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[]}</script>
     
-    <head>
-      <meta charset="UTF-8">
-      <title>快速部署一个 Express 应用</title>
-      <link rel="stylesheet" href="https://serverless-devs-app-pkg.oss-cn-beijing.aliyuncs.com/web-framework-demo.css" />
-    </head>
-    
-    <body>
-    <header>
-    <div class="header">
-      <img class="logo" src="https://img.alicdn.com/imgextra/i4/O1CN01Qg3e7H1WlGp5th8J6_!!6000000002828-2-tps-400-400.png" />
-      <div>
-        <a href="https://github.com/devsapp/start-web-framework/tree/master/web-framework/nodejs/express/src" target="_blank">
-          <svg class="w-6 h-6 text-gray-600 hover:text-gray-800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="32" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"><path d="M12 2.247a10 10 0 0 0-3.162 19.487c.5.088.687-.212.687-.475c0-.237-.012-1.025-.012-1.862c-2.513.462-3.163-.613-3.363-1.175a3.636 3.636 0 0 0-1.025-1.413c-.35-.187-.85-.65-.013-.662a2.001 2.001 0 0 1 1.538 1.025a2.137 2.137 0 0 0 2.912.825a2.104 2.104 0 0 1 .638-1.338c-2.225-.25-4.55-1.112-4.55-4.937a3.892 3.892 0 0 1 1.025-2.688a3.594 3.594 0 0 1 .1-2.65s.837-.262 2.75 1.025a9.427 9.427 0 0 1 5 0c1.912-1.3 2.75-1.025 2.75-1.025a3.593 3.593 0 0 1 .1 2.65a3.869 3.869 0 0 1 1.025 2.688c0 3.837-2.338 4.687-4.563 4.937a2.368 2.368 0 0 1 .675 1.85c0 1.338-.012 2.413-.012 2.75c0 .263.187.575.687.475A10.005 10.005 0 0 0 12 2.247z" fill="#fff" /></svg>
-          <p>Github</p>
-        </a>
-      </div>
-    </div>
-    <div class="wrap">
-      <h1>快速部署一个 Express 应用</h1>
-    </div>
-    <div class="wrap">
-    <p>Serverless Devs 是一个开源开放的 Serverless 开发者平台，致力于为开发者提供强大的工具链体系。通过该平台，开发者可以一键体验多云 Serverless 产品，快速部署 Serverless 项目。</p>
-    <a class="button button-primary" href="http://www.serverless-devs.com" target="_blank">Serverless Devs</a>
-    </div>
-  </header>
-      <div class="content">
-        <div class="list">
-          <div class="item">
-            <div class="step">1</div>
-            <h2>介绍</h2>
-            <p>这是一个 <code>Express</code> 应用示例，可以通过 Serverless Devs 工具将项目一键部署到云开发环境</p>
-          </div>
-          <div class="item">
-            <div class="step">2</div>
-            <h2>文档</h2>
-            <p>Express 官方在线文档，参见 <a href="https://expressjs.com/zh-cn/" target="_blank">https://expressjs.com/zh-cn/</a></p>
-          </div>
-          <div class="item">
-            <div class="step">3</div>
-            <h2>快速部署一个 Express 应用</h2>
-            <div class="container">
-              <div>
-                <h3>步骤一. 准备工作</h3>
-                <p>具体步骤请参照 <a href="https://github.com/Serverless-Devs/Serverless-Devs/blob/master/docs/zh/install.md" target="_blank"> Serverless Cli 安装</a></p>
-                <h3>步骤二. 初始化应用示例</h3>
-                <pre>s init start-express</pre>
-                <h3>步骤三. 一键部署</h3>
-                <p>进入到项目目录，在命令行执行</p>
-                <pre>s deploy</pre>
-                <h3>帮助文档</h3>
-                <ul>
-                  <li>
-                    Serverless Devs 钉钉交流群：33947367
-                  </li>
-                  <li>
-                    <a href="https://github.com/Serverless-Devs/Serverless-Devs"
-                       target="_blank">Serverless Devs 工具</a>
-                  </li>
-                  <li>
-                    <a href="https://www.serverless-devs.com/serverless-devs/install"
-                       target="_blank">工具安装文档</a>
-                  </li>
-                  <li>
-                    <a href="https://www.serverless-devs.com/serverless-devs/command/readme"
-                       target="_blank">命令行指令文档</a>
-                  </li>
-                  <li>
-                    <a href="https://www.serverless-devs.com/fc/yaml/readme"
-                       target="_blank">Yaml 规范文档</a>
-                  </li>
-                </ul>
-              </div>
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/nfes-338b511b1ff8fb05.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/commonsLib-4c937d62271cad6f.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/727.9118ae19a877f670.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/349.ce97fb0528a82be7.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/webpack-0c0dbddaa58d4472.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/nfes-338b511b1ff8fb05.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/framework-db65e3f45e856938.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/main-9a98f521a3e4d7df.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/pages/_app-9f0a4d0be1c7da20.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/29107295-8223582653728f26.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/7e9dcd50-05b161c13f3f67a2.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/commons-678d90d8c830261b.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/commonsLib-4c937d62271cad6f.js"
+        as="script" />
+    <link rel="preload"
+        href="https://ak-s.tripcdn.com/NFES/ticket/1715850762506/_next/static/chunks/pages/activity-product-detail-29507045388944b8.js"
+        as="script" />
+</head>
+
+<body>
+    <div id="__next">
+        <div class=""
+            style="display:flex;flex-direction:column;height:100%;background-color:rgba(255,255,255,1);classname:m_detail_wrapper">
+            <div class=""
+                style="position:relative;background-color:rgba(255,255,255,1);overflow:hidden;display:flex;flex-direction:column;flex:1;classname:m_detail">
+                <div style="height:100%" class="taro-scroll taro-scroll-view__scroll-y listRef">
+                    <div class="wrapRef"><!--$-->
+                        <div class="cookie-banner">
+                            <div style="display:none"></div>
+                        </div><!--/$-->
+                        <div class="m_home_pop_download"><!--$-->
+                            <style>
+                                [object Object]
+                            </style><!--/$-->
+                        </div>
+                        <div class="m_home_banner_download m_class_banner_logo"></div>
+                        <header class="tcp-h5-header white" style="z-index:102">
+                            <div class="tcp-h5-header-wrap ">
+                                <div class="tcp-h5-header-logo">
+                                    <div class="tcp-h5-header-logo-placeholder"></div>
+                                </div>
+                                <div class="tcp-h5-header-middle"></div>
+                                <div class="tcp-h5-header-icons">
+                                    <div class="tcp-h5-header-switch">
+                                        <div class="tcp-h5-header-switch-icon ">
+                                            <div class="tcp-h5-header-switch-icon-top"></div>
+                                            <div class="tcp-h5-header-switch-icon-middle"></div>
+                                            <div class="tcp-h5-header-switch-icon-bottom"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tcp-h5-menu-container"></div>
+                        </header>
+                        <script>if (typeof Object.assign !== 'function') { window._assignObject = function (t, s) { for (var k in s) { t[k] = s[k] }; return t }; } else { window._assignObject = Object.assign } window.__CARGO_DATA__ = _assignObject(window.__CARGO_DATA__ || {}, { "h5headerlinke0": "{\"loginUser\":\"/customer/coins\"}", "locale": "en-US", "h5channelscenuse1": [{ "locale": "en-US", "channel": "hotels", "value": "1" }, { "locale": "en-US", "channel": "flights", "value": "1" }, { "locale": "en-US", "channel": "trains", "value": "1" }, { "locale": "en-US", "channel": "carhire", "value": "1" }, { "locale": "en-US", "channel": "airporttransfers", "value": "1" }, { "locale": "en-US", "channel": "ttd", "value": "1" }, { "locale": "en-US", "channel": "packages", "value": "0" }, { "locale": "en-US", "channel": "travelguide", "value": "1" }, { "locale": "en-US", "channel": "cruises", "value": "1" }, { "locale": "en-US", "channel": "customtrips", "value": "1" }], "h5channelmetauwahotelse0": "{\"displayName\":\"Hotels\",\"displaySharkKey\":\"key_channel_hotels\",\"path\":\"/hotels/\"}", "h5channelmetauwahotelscenuse0": "{\"displayName\":\"Hotels\",\"displaySharkKey\":\"key_channel_hotels\",\"path\":\"/hotels/\"}", "h5channelmetauwaflightse0": "{\"displayName\":\"Flights\",\"displaySharkKey\":\"key_channel_flights\",\"path\":\"/flights/\"}", "h5channelmetauwaflightscenuse0": "{\"displayName\":\"Flights\",\"displaySharkKey\":\"key_channel_flights\",\"path\":\"/flights/\"}", "h5channelmetauwatrainse0": "{\"displayName\":\"Trains\",\"displaySharkKey\":\"key_channel_trains\",\"path\":\"/trains/\"}", "h5channelmetauwatrainscenuse0": "{\"displayName\":\"Trains\",\"displaySharkKey\":\"key_channel_trains\",\"path\":\"/trains/\"}", "h5channelmetauwacarhiree0": "{\"displayName\":\"Car Rentals\",\"displaySharkKey\":\"key_channel_carhire\",\"path\":\"/carhire/?channelid=16815\"}", "h5channelmetauwacarhirecenuse0": "{\"displayName\":\"Car Rentals\",\"displaySharkKey\":\"key_channel_carhire\",\"path\":\"/carhire/?channelid=16815\"}", "h5channelmetauwaairporttransferse0": "{\"displayName\":\"Airport Transfers\",\"displaySharkKey\":\"key_channel_airporttransfers\",\"path\":\"/m/airport-transfers/index/\"}", "h5channelmetauwaairporttransferscenuse0": "{\"displayName\":\"Airport Transfers\",\"displaySharkKey\":\"key_channel_airporttransfers\",\"path\":\"/m/airport-transfers/index/\"}", "h5channelmetauwattde0": "{\"displayName\":\"Tours & Tickets\",\"displaySharkKey\":\"key_channel_ttd\",\"path\":\"/things-to-do/ttd-home/?ctm_ref=vactang_page_23110&useCTHybrid=1\"}", "h5channelmetauwattdcenuse0": "{\"displayName\":\"Tours & Tickets\",\"displaySharkKey\":\"key_channel_ttd\",\"path\":\"/things-to-do/ttd-home/?ctm_ref=vactang_page_23110&useCTHybrid=1\"}", "h5channelmetauwatravelguidee0": "{\"menuIcon\":\"https://pages.trip.com/images/components/channel-attractions.svg\",\"homeIcon\":\"https://pages.trip.com/images/components/channel-attractions.png\",\"newMenuIcon\":\"https://pages.trip.com/images/components/channel-attractions-v2.svg\",\"minorIcon\":\"https://ak-d.tripcdn.com/images/05E1p12000cwieqjuEB93.png\",\"startTime\":\"2021-01-01\",\"endTime\":\"2099-01-01\",\"displayName\":\"Attractions\",\"displaySharkKey\":\"key_channel_travelguide\",\"path\":\"/travel-guide/\"}", "h5channelmetauwatravelguidecenuse0": "{\"menuIcon\":\"https://pages.trip.com/images/components/channel-attractions.svg\",\"homeIcon\":\"https://pages.trip.com/images/components/channel-attractions.png\",\"newMenuIcon\":\"https://pages.trip.com/images/components/channel-attractions-v2.svg\",\"minorIcon\":\"https://ak-d.tripcdn.com/images/05E1p12000cwieqjuEB93.png\",\"startTime\":\"2021-01-01\",\"endTime\":\"2099-01-01\",\"displayName\":\"Attractions\",\"displaySharkKey\":\"key_channel_travelguide\",\"path\":\"/travel-guide/\"}", "h5channelmetauwacruisese0": "{\"displayName\":\"Cruises\",\"displaySharkKey\":\"key_channel_cruises\",\"path\":\"/m/cruises/\"}", "h5channelmetauwacruisescenuse0": "{\"displayName\":\"Cruises\",\"displaySharkKey\":\"key_channel_cruises\",\"path\":\"/m/cruises/\"}", "h5channelmetauwacustomtripse0": "{\"menuIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.svg\",\"homeIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.png\",\"minorIcon\":\"https://ak-d.tripcdn.com/images/05E1i12000cwiethmB038.png\",\"newMenuIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.svg\",\"startTime\":\"2021-01-01\",\"endTime\":\"2099-01-01\",\"displayName\":\"Custom Trips\",\"displaySharkKey\":\"key_channel_customtrips\",\"path\":\"/customtour/index\"}", "h5channelmetauwacustomtripscenuse0": "{\"menuIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.svg\",\"homeIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.png\",\"minorIcon\":\"https://ak-d.tripcdn.com/images/05E1i12000cwiethmB038.png\",\"newMenuIcon\":\"https://pages.trip.com/images/components/channel-custom-trips.svg\",\"startTime\":\"2021-01-01\",\"endTime\":\"2099-01-01\",\"displayName\":\"Custom Trips\",\"displaySharkKey\":\"key_channel_customtrips\",\"path\":\"/customtour/index\"}", "loginmenuuwe0": "{\"account\":[{\"id\":\"guest-booking\",\"showByLocale\":\"\",\"simple\":false,\"login\":0,\"icon\":\"tcp-h5-ic-bookings\",\"displayName\":\"Guest Booking\",\"displayNameSharkKey\":\"c_3015\",\"link\":\"/m/orders/all\"},{\"id\":\"guest-booking\",\"show\":true,\"showByLocale\":\"\",\"simple\":false,\"login\":2,\"icon\":\"tcp-h5-ic-bookings\",\"displayName\":\"Guest Booking\",\"displayNameSharkKey\":\"c_3003\",\"link\":\"/m/passport/searchguestbooking\"},{\"id\":\"booking\",\"show\":true,\"showByLocale\":\"\",\"simple\":false,\"login\":1,\"icon\":\"tcp-h5-ic-bookings\",\"displayName\":\"My Booking\",\"displayNameSharkKey\":\"c_3005\",\"link\":\"/m/orders/all\"},{\"id\":\"notification\",\"show\":true,\"showByLocale\":\"\",\"simple\":false,\"login\":1,\"icon\":\"tcp-h5-ic-email\",\"displayName\":\"Notifications\",\"displayNameSharkKey\":\"c_3006\",\"link\":\"/m/subscribe/\"}],\"help\":[{\"id\":\"app-download\",\"show\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-phone\",\"displayName\":\"App Download\",\"displayNameSharkKey\":\"key_app_download\",\"link\":\"https://tripcom.go.link?adj_t=15j9m0tk_15jds8ml&deep_link=ctripglobal%3A%2F%2Fmytrip%2Fhome%3F&adj_label=platform%3Dwap%26locale%3Den-XX%26pageid%3D10650069352%26position%3Dmenu%26butype%3Dpublic%26pid%3Dinternal&adj_fallback=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu&adj_adgroup=&adj_creative=&adj_campaign=&adj_redirect_macos=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu\"},{\"id\":\"tripcoins\",\"show\":true,\"showByLocale\":\"\",\"login\":1,\"icon\":\"tcp-h5-ic-trip-coins\",\"displayName\":\"Trip.com Rewards\",\"displayNameSharkKey\":\"key_tier_points\",\"link\":\"/customer/tierpoints\"},{\"id\":\"tripcoins\",\"show\":true,\"showByLocale\":\"\",\"login\":2,\"icon\":\"tcp-h5-ic-trip-coins\",\"displayName\":\"Trip.com Rewards\",\"displayNameSharkKey\":\"key_trip_plus\",\"link\":\"/sale/TripPLUS\"},{\"id\":\"promo-codes\",\"show\":true,\"showByLocale\":\"\",\"login\":1,\"icon\":\"tcp-h5-ic-promo-codes\",\"displayName\":\"Promo Codes\",\"displayNameSharkKey\":\"key_my_promo\",\"link\":\"/customer/promo\"},{\"id\":\"help\",\"show\":true,\"simple\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-help\",\"displayName\":\"Help\",\"displayNameSharkKey\":\"c_3061\",\"link\":\"/pages/support/\"}],\"membership\":[{\"id\":\"loyalty\",\"show\":true,\"showByLocale\":\"\",\"login\":2,\"icon\":\"tcp-h5-ic-a-Tripcoins\",\"displayName\":\"Trip.com Rewards\",\"displayNameSharkKey\":\"key_tier_points\",\"link\":\"/customer/loyalty\"}],\"other\":[{\"id\":\"help\",\"show\":true,\"simple\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-Help\",\"displayName\":\"Help\",\"displayNameSharkKey\":\"c_3061\",\"link\":\"/pages/support\"},{\"id\":\"notification\",\"show\":true,\"showByLocale\":\"\",\"simple\":false,\"login\":1,\"icon\":\"tcp-h5-ic-a-Notificationssettings\",\"displayName\":\"Notifications\",\"displayNameSharkKey\":\"c_3006\",\"link\":\"/m/subscribe\"},{\"id\":\"app-download\",\"show\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-a-DownloadtheAPP\",\"displayName\":\"App Download\",\"displayNameSharkKey\":\"key_app_download\",\"link\":\"https://tripcom.go.link?adj_t=15j9m0tk_15jds8ml&deep_link=ctripglobal%3A%2F%2Fmytrip%2Fhome%3F&adj_label=platform%3Dwap%26locale%3Den-XX%26pageid%3D10650069352%26position%3Dmenu%26butype%3Dpublic%26pid%3Dinternal&adj_fallback=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu&adj_adgroup=&adj_creative=&adj_campaign=&adj_redirect_macos=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu\"}],\"other_v2\":[{\"id\":\"rewards\",\"show\":false,\"showByLocale\":\"en-ca,da-dk,fi-fi,uk-ua,pt-pt,es-mx,sv-se,nl-nl,pl-pl,en-sg,ja-jp,ko-kr,en-hk,zh-hk,de-de,fr-fr,es-es,ru-ru,id-id,en-id,th-th,en-th,ms-my,en-my,en-au,en-xx,en-us,es-us,tr-tr,en-ie,de-at,de-ch,fr-ch,nl-be,en-be,fr-be,en-il,pt-br,el-gr,en-ae,en-sa,en-nz,en-gb,it-it,vi-vn,en-ph,en-in,en-pk\",\"login\":2,\"icon\":\"tcp-h5-ic-trip-coins\",\"menuIcon\":\"https://ak-d.tripcdn.com/images/05E4h12000cncpscn3271.png\",\"displayName\":\"Trip.com Rewards\",\"displayNameSharkKey\":\"key_tier_points\",\"link\":\"/customer/loyalty\"},{\"id\":\"help\",\"show\":true,\"simple\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-help\",\"displayName\":\"Help\",\"displayNameSharkKey\":\"c_3061\",\"link\":\"/pages/support\"},{\"id\":\"notification\",\"show\":false,\"showByLocale\":\"en-ca,da-dk,fi-fi,uk-ua,pt-pt,es-mx,sv-se,nl-nl,pl-pl,en-sg,ja-jp,ko-kr,en-hk,zh-hk,de-de,fr-fr,es-es,ru-ru,id-id,en-id,th-th,en-th,ms-my,en-my,en-au,en-xx,en-us,es-us,tr-tr,en-ie,de-at,de-ch,fr-ch,nl-be,en-be,fr-be,en-il,pt-br,el-gr,en-ae,en-sa,en-nz,en-gb,it-it,vi-vn,en-ph,en-in,en-pk\",\"simple\":false,\"login\":1,\"icon\":\"tcp-h5-ic-ic_email_block\",\"displayName\":\"Notifications\",\"displayNameSharkKey\":\"c_3006\",\"link\":\"/m/subscribe\"},{\"id\":\"app\",\"show\":true,\"showByLocale\":\"\",\"login\":0,\"icon\":\"tcp-h5-ic-phone\",\"displayName\":\"App Download\",\"displayNameSharkKey\":\"key_app_download\",\"link\":\"https://tripcom.go.link?adj_t=15j9m0tk_15jds8ml&deep_link=ctripglobal%3A%2F%2Fmytrip%2Fhome%3F&adj_label=platform%3Dwap%26locale%3Den-XX%26pageid%3D10650069352%26position%3Dmenu%26butype%3Dpublic%26pid%3Dinternal&adj_fallback=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu&adj_adgroup=&adj_creative=&adj_campaign=&adj_redirect_macos=https%3A%2F%2Fwww.trip.com%2Fm%2Fdownapp%3Flocale%3Den-XX%26utm_medium%3Dinternal%26utm_source%3Dpublic%26utm_campaign%3D0%26utm_content%3Dplatform%253Dwap%2526locale%253Den-XX%2526pageid%253D10650069352%2526position%253Dmenu\"}]}" })</script>
+                    </div>
+                    <div class="" style="background-color:#fff;width:100%;classname:m_breadcrumb_bg">
+                        <div class="" style="width:100%;classname:m_breadcrumb_content">
+                            <div class="product-detail-breadcrumbs m_breadcrumb product-detail-breadcrumbs"><a href="/"
+                                    class="m_breadcrumb_item" target="_self">Home</a><span
+                                    class="m_breadcrumb_separator"><span class="taro-text ottd ottd-enArrowforward"
+                                        style="font-family:crn_font_ttd_mini_page;font-size:10px;classname:fontSize"></span></span><a
+                                    href="/things-to-do/hong-kong-58/" class="m_breadcrumb_item" target="_self">Hong
+                                    Kong Tours &amp; Tickets</a><span class="m_breadcrumb_separator"><span
+                                        class="taro-text ottd ottd-enArrowforward"
+                                        style="font-family:crn_font_ttd_mini_page;font-size:10px;classname:fontSize"></span></span><a
+                                    href="/things-to-do/list?searchtype=1&amp;searchkey=58&amp;pshowcode=-1&amp;cityid=58"
+                                    class="m_breadcrumb_item" target="_self">Search Results</a></div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="m_module_online_width_inside">
+                            <div class="m_module_online_content_width_inside">
+                                <div class="group_3812" style="classname:m_module_no" activeOpacity="1" id="group_3812">
+                                    <div class="" style="margin-top:0">
+                                        <div class="xt-xview">
+                                            <div class="taro-img swiper-first-screen"
+                                                style="width:100%;height:14.0625rem"><img
+                                                    src="data:image/webp;base64,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"
+                                                    class="taro-img__content taro-img__scale-to-fill" /></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="m_module_online_width_inside">
+                            <div class="m_module_online_content_width_inside">
+                                <div class="group_3814" style="classname:m_module_header" activeOpacity="1"
+                                    id="group_3814">
+                                    <div class=""
+                                        style="position:relative;z-index:10;margin-top:-32px;background-color:rgba(255,255,255,1);overflow:hidden;border-top-left-radius:16px;border-top-right-radius:16px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;classname:m_proinfo_wrapper">
+                                        <div class=""
+                                            style="overflow:hidden;padding-left:20px;padding-right:20px;padding-top:24px;classname:m_proinfo_container">
+                                            <div class="">
+                                                <div class=""
+                                                    style="overflow:hidden;background-color:rgba(255,255,255,1);classname:m_proinfo_section">
+                                                    <div class=""
+                                                        style="display:flex;flex-direction:row;align-items:flex-end;padding-bottom:5px;min-height:36px;classname:m_proinfo_price_container">
+                                                        <div class=""
+                                                            style="flex:1;display:flex;flex-direction:row;align-items:flex-end;classname:m_proinfo_price_box">
+                                                            <div class="" style="display:flex;align-items:flex-end">
+                                                                <div class=""
+                                                                    style="display:flex;flex-direction:row;align-items:flex-end;classname:u_price">
+                                                                    <span class="taro-text"
+                                                                        style="font-size:0.6rem;font-weight:400;line-height:17px;color:rgba(15,41,77,1);margin-right:5px;bottom:4px;classname:u_price_from">From</span>
+                                                                    <div class="" style="color:rgba(15,41,77,1)">
+                                                                        <!--$!--><template
+                                                                            data-dgst="DYNAMIC_SERVER_USAGE"></template><!--/$-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><span class="taro-text"
+                                                            style="font-size:0.6rem;font-weight:400;line-height:18px;color:rgba(133,146,166,1);classname:m_proinfo_price_saleNo">800+
+                                                            booked</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=""
+                                        style="overflow:hidden;padding-left:20px;padding-right:20px;padding-top:0px;padding-bottom:0.8rem;classname:m_proinfo_container_sec;background-color:rgba(255,255,255,1)">
+                                        <div class=""
+                                            style="overflow:hidden;background-color:rgba(255,255,255,1);classname:m_proinfo_section">
+                                            <div class="">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class=""
+                                                style="position:relative;display:flex;flex-direction:column;justify-content:center;classname:m_proinfo_name_container">
+                                                <span class="taro-text"
+                                                    style="font-size:1rem;font-weight:bold;line-height:26px;color:rgba(15,41,77,1);text-align-vertical:center;classname:m_proinfo_name">Discover
+                                                    Hong Kong 5-Day Tourist SIM Card (incl. Macau Data) – Pick up at 10
+                                                    Retail shops in Hong Kong</span></div>
+                                            <div class=""
+                                                style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-top:12px;classname:m_proinfo_comment_container"
+                                                activeOpacity="1" testID="ibuact-10650012751-comment-more-21535189">
+                                                <div class=""
+                                                    style="display:flex;flex-direction:row;classname:m_proinfo_comment_score">
+                                                    <div class=""
+                                                        style="display:flex;flex-direction:row;align-items:center;background-color:rgba(17,54,166,1);padding-left:4px;padding-right:4px;line-height:19px;color:rgba(255,255,255,1);border-radius:1px;width:auto;height:19px;border-top-left-radius:9px;border-top-right-radius:0px;border-bottom-right-radius:9px;border-bottom-left-radius:9px;classname:m_proinfo_comment_score_container">
+                                                        <span class="taro-text"
+                                                            style="font-size:0.7rem;font-weight:700;line-height:0.9rem;color:rgba(255,255,255,1);classname:m_proinfo_comment_score_text">4.4</span><span
+                                                            class="taro-text"
+                                                            style="zoom:0.9166666666666666;font-size:12px;font-weight:700;line-height:19px;color:rgba(255,255,255,0.5);classname:m_proinfo_comment_score_text_last">/5</span>
+                                                    </div><span class="taro-text"
+                                                        style="margin-left:6px;font-size:0.7rem;font-weight:500;line-height:0.9rem;color:rgba(17,54,166,1);classname:m_proinfo_comment_score_label">Average</span>
+                                                    <div class="" testID="[object Object]"
+                                                        style="margin-left:5px;display:flex;flex-direction:row;align-items:center;classname:reviews">
+                                                        <span class="taro-text"
+                                                            style="font-size:0.7rem;font-weight:400;line-height:0.9rem;color:rgba(17,54,166,1);margin-right:4px;letter-spacing:0;classname:reviews_text">66
+                                                            reviews</span><span
+                                                            class="taro-text ottd ottd-enArrowforward"
+                                                            style="color:rgba(17,54,166,1);classname:fontSize;font-family:crn_font_ttd_mini_page;font-size:11px"></span>
+                                                    </div><span class="taro-text"
+                                                        style="margin-left:10px;font-size:0.7rem;font-weight:400;line-height:0.9rem;color:rgba(15,41,77,1);classname:booked_text">800+
+                                                        booked</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="m_module_online_width_inside">
+                            <div class="m_module_online_content_width_inside">
+                                <div class="group_3815" style="classname:m_module_no" activeOpacity="1" id="group_3815">
+                                    <div class=""
+                                        style="border-top-color:rgba(218,223,230,1);border-top-width:1px;border-top-style:solid;padding-top:8px;padding-left:0px;padding-right:0px;padding-bottom:0px;border-bottom-left-radius:8px;border-bottom-right-radius:8px;background-color:rgba(255,255,255,1);margin-bottom:16px;margin-left:20px;margin-right:20px;classname:m_service">
+                                        <div class=""
+                                            style="padding-top:8px;display:flex;flex-direction:row;classname:m_service_container"
+                                            testID="[object Object]">
+                                            <div class=""
+                                                style="flex:1;display:flex;flex-direction:row;flex-wrap:wrap;classname:classname">
+                                                <div class=""
+                                                    style="display:flex;flex-direction:row;justify-content:flex-start;flex:1;classname:container">
+                                                    <div class=""
+                                                        style="top:0.25rem;margin-right:0.5rem;classname:icon"><span
+                                                            class="taro-text ottd ottd-product icon"
+                                                            style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:16px;classname:fontSize"></span>
+                                                    </div>
+                                                    <div class=""
+                                                        style="display:flex;flex:1;flex-wrap:wrap;flex-direction:row;line-height:18;align-items:center"
+                                                        numberOfLines="2"><span class="taro-text"
+                                                            style="font-size:0.7rem;font-weight:400;line-height:1.2rem;color:rgba(15,41,77,1);classname:m_label_text">
+                                                            Hong Kong Pickup</span>
+                                                        <div class=""
+                                                            style="width:0.05rem;height:0.6rem;margin-left:0.4rem;margin-right:0.4rem;background-color:rgba(218,223,230,1);classname:line">
+                                                        </div><span class="taro-text"
+                                                            style="font-size:0.7rem;font-weight:400;line-height:1.2rem;color:rgba(15,41,77,1);classname:m_label_text">Fixed
+                                                            Validity Period</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=""
+                                            style="padding-top:8px;display:flex;flex-direction:row;classname:m_service_container"
+                                            testID="[object Object]">
+                                            <div class=""
+                                                style="flex:1;display:flex;flex-direction:row;flex-wrap:wrap;classname:classname">
+                                                <div class=""
+                                                    style="display:flex;flex-direction:row;justify-content:flex-start;flex:1;classname:container">
+                                                    <div class=""
+                                                        style="display:flex;flex-direction:row;align-items:center;margin-right:0.5rem;classname:icon">
+                                                        <span class="taro-text ottd ottd-server icon"
+                                                            style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:16px;classname:fontSize"></span>
+                                                    </div>
+                                                    <div class=""
+                                                        style="display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;flex:1;max-height:24px;overflow:hidden;classname:labels">
+                                                        <div class=""
+                                                            style="display:flex;flex-direction:row;align-items:center;classname:label">
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;classname:m_label_text_box">
+                                                                <span class="taro-text"
+                                                                    style="font-size:0.7rem;font-weight:400;line-height:24px;color:rgba(15,41,77,1);classname:m_label_text">Available
+                                                                    from Today</span></div>
+                                                        </div>
+                                                        <div class=""
+                                                            style="display:flex;flex-direction:row;align-items:center;classname:label">
+                                                            <div class=""
+                                                                style="width:1px;height:0.6rem;margin-left:8px;margin-right:8px;background-color:rgba(218,223,230,1);classname:line">
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;classname:m_label_text_box">
+                                                                <span class="taro-text"
+                                                                    style="font-size:0.7rem;font-weight:400;line-height:24px;color:rgba(15,41,77,1);classname:m_label_text">Booking
+                                                                    Confirmation</span></div>
+                                                        </div>
+                                                        <div class=""
+                                                            style="display:flex;flex-direction:row;align-items:center;classname:label">
+                                                            <div class=""
+                                                                style="width:1px;height:0.6rem;margin-left:8px;margin-right:8px;background-color:rgba(218,223,230,1);classname:line">
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;classname:m_label_text_box">
+                                                                <span class="taro-text"
+                                                                    style="font-size:0.7rem;font-weight:400;line-height:24px;color:rgba(15,41,77,1);classname:m_label_text">Non-Refundable</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class=""
+                                                style="display:flex;flex-direction:column;justify-content:center;classname:m_post">
+                                                <span class="taro-text ottd ottd-enArrowforward"
+                                                    style="color:rgba(15,41,77,1);classname:fontSize;font-family:crn_font_ttd_mini_page;font-size:12px"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="m_module_online_width_inside">
+                            <div class="m_module_online_content_width_inside">
+                                <div class="group_1004" style="classname:m_module_no" activeOpacity="1" id="group_1004">
+                                    <div class="" style="position:relative">
+                                        <div class="" style="position:absolute;width:100%">
+                                            <div class=""
+                                                style="background-color:rgba(255,255,255,1);padding-left:1rem;padding-right:1rem;margin-bottom:0.4rem;margin-top:0">
+                                                <div class="">
+                                                    <div class="style_breathe_warp__4H2WM"
+                                                        style="background-color:rgba(240,242,245,1);width:29.4%"></div>
+                                                </div>
+                                                <div class="" style="margin-top:0">
+                                                    <div class="">
+                                                        <div class="style_breathe_warp__4H2WM"
+                                                            style="background-color:rgba(240,242,245,1);width:100%">
+                                                        </div>
+                                                        <div class="style_breathe_warp__4H2WM"
+                                                            style="background-color:rgba(240,242,245,1);width:77.1%">
+                                                        </div>
+                                                        <div class="style_breathe_warp__4H2WM"
+                                                            style="background-color:rgba(240,242,245,1);width:77.1%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class=""
+                                            style="background-color:#FFFBF0;padding:16px;classname:container;margin-bottom:32px;margin-left:20px;margin-right:20px;border-radius:8px;border-color:#FFE8B1;border-width:1px;opacity:0"
+                                            testID="[object Object]">
+                                            <div class=""
+                                                style="flex-direction:row;justify-content:space-between;align-items:center;margin-bottom:16px;classname:header">
+                                                <span class="taro-text"
+                                                    style="font-weight:bold;font-size:16px;line-height:21px;color:rgba(15,41,77,1);classname:title">key.v.page.productdetail.productfeature</span>
+                                            </div>
+                                            <div class="" style="margin-bottom:0.2rem">
+                                                <div class="" style="position:relative">
+                                                    <div class="xt-collapse__wrap"
+                                                        style="overflow:hidden;max-height:54px">
+                                                        <div class="lw94dcs00lmk9">
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:flex-start;margin-top:0;width:100%;classname:listItem">
+                                                                <div class=""
+                                                                    style="margin-right:4px;height:18px;display:flex;flex-direction:row;align-items:center;classname:bulletIcon">
+                                                                    <span class="taro-text ottd ottd-star2"
+                                                                        style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:9.5px;classname:fontSize"></span>
+                                                                </div>
+                                                                <div class="" style="flex:1"><span
+                                                                        class="taro-text feature-content-item-0"
+                                                                        style="display:block;font-size:14px;line-height:18px;color:rgba(15,41,77,1);classname:itemText">Enjoy
+                                                                        3GB Hong Kong &amp; Macau shared data, free csl
+                                                                        WIFI service and unlimited Hong Kong local voice
+                                                                        calls within first 5 days (Upgraded to 12GB Hong
+                                                                        Kong &amp; Macau shared data within first 10
+                                                                        days)</span></div>
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:flex-start;margin-top:12px;width:100%;classname:listItem">
+                                                                <div class=""
+                                                                    style="margin-right:4px;height:18px;display:flex;flex-direction:row;align-items:center;classname:bulletIcon">
+                                                                    <span class="taro-text ottd ottd-star2"
+                                                                        style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:9.5px;classname:fontSize"></span>
+                                                                </div>
+                                                                <div class="" style="flex:1"><span
+                                                                        class="taro-text feature-content-item-1"
+                                                                        style="display:block;font-size:14px;line-height:18px;color:rgba(15,41,77,1);classname:itemText">HKD$30
+                                                                        Usable value for IDD calls </span></div>
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:flex-start;margin-top:12px;width:100%;classname:listItem">
+                                                                <div class=""
+                                                                    style="margin-right:4px;height:18px;display:flex;flex-direction:row;align-items:center;classname:bulletIcon">
+                                                                    <span class="taro-text ottd ottd-star2"
+                                                                        style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:9.5px;classname:fontSize"></span>
+                                                                </div>
+                                                                <div class="" style="flex:1"><span
+                                                                        class="taro-text feature-content-item-2"
+                                                                        style="display:block;font-size:14px;line-height:18px;color:rgba(15,41,77,1);classname:itemText">Save
+                                                                        on dining, attractions and more with
+                                                                        e-coupons</span></div>
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:flex-start;margin-top:12px;width:100%;classname:listItem">
+                                                                <div class=""
+                                                                    style="margin-right:4px;height:18px;display:flex;flex-direction:row;align-items:center;classname:bulletIcon">
+                                                                    <span class="taro-text ottd ottd-star2"
+                                                                        style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:9.5px;classname:fontSize"></span>
+                                                                </div>
+                                                                <div class="" style="flex:1"><span
+                                                                        class="taro-text feature-content-item-3"
+                                                                        style="display:block;font-size:14px;line-height:18px;color:rgba(15,41,77,1);classname:itemText">Hong
+                                                                        Kong Airport and total 11 redemption
+                                                                        centers</span></div>
+                                                            </div>
+                                                            <div class=""
+                                                                style="display:flex;flex-direction:row;align-items:flex-start;margin-top:12px;width:100%;classname:listItem">
+                                                                <div class=""
+                                                                    style="margin-right:4px;height:18px;display:flex;flex-direction:row;align-items:center;classname:bulletIcon">
+                                                                    <span class="taro-text ottd ottd-star2"
+                                                                        style="font-family:crn_font_ttd_mini_page;color:rgba(15,41,77,1);font-size:9.5px;classname:fontSize"></span>
+                                                                </div>
+                                                                <div class="" style="flex:1"><span
+                                                                        class="taro-text feature-content-item-4"
+                                                                        style="display:block;font-size:14px;line-height:18px;color:rgba(15,41,77,1);classname:itemText">Real-name
+                                                                        Registration for SIM Card has been implemented.
+                                                                        Please go to https://rnr.hkcsl.com/csl on your
+                                                                        handset to complete Real-name
+                                                                        Registration.</span></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ottd-footer ">
+                    <div class=""
+                        style="z-index:10.1rem;display:flex;flex-direction:row;flex-shrink:0;bottom:0px;left:0rem;align-items:center;padding-top:0.6rem;padding-bottom:0.6rem;justify-content:space-between;padding-left:0.6rem;padding-right:0.6rem;classname:m_wrapper_border_radius;background-color:rgba(255,255,255,1);box-shadow:-5px 0px 5px 0px rgba(15, 41, 77, 0.1);elevation:5px;border-top-left-radius:0.6rem;border-top-right-radius:0.6rem;border-bottom-right-radius:0px;border-bottom-left-radius:0px">
+                        <div class=""
+                            style="display:flex;justify-content:flex-start;align-items:flex-start;padding-top:0rem;padding-right:0.2rem;padding-bottom:0rem;flex-direction:column;flex:1;classname:m_footer_leftT">
+                            <div class=""
+                                style="display:flex;flex-direction:row;flex-wrap:wrap;align-items:flex-end;classname:m_footer_left_box">
+                                <div class=""
+                                    style="display:flex;flex-direction:row;align-items:flex-end;height:1.2rem;margin-right:0.2rem;classname:m_footer_left_total">
+                                    <div class=""
+                                        style="display:flex;height:1.2rem;line-height:1.2rem;flex-direction:row;align-items:flex-end;classname:m_footer_left_price">
+                                        <div class=""
+                                            style="display:flex;flex-direction:row;align-items:flex-end;classname:u_price">
+                                            <span class="taro-text"
+                                                style="font-size:0.6rem;font-weight:400;line-height:0.85rem;color:rgba(69,88,115,1);margin-right:0.15rem;bottom:4px;classname:u_price_from;margin-top:0.1rem">From</span>
+                                            <div class="" style="color:rgba(15,41,77,1)"><!--$!--><template
+                                                    data-dgst="DYNAMIC_SERVER_USAGE"></template><!--/$--></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=""
+                                    style="display:flex;flex-direction:row;classname:m_footer_left_detail_box"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div class="" style="width:100%;classname:m_footer_onlybtn_box" activeOpacity="0.8"
+                                testID="footer_btn">
+                                <div class="" hover-class="none"
+                                    style="height:2.2rem;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;border-radius:0.2rem;padding-left:0.6rem;padding-right:0.6rem;classname:onlyBtnStyle;margin-left:auto;margin-right:auto;background-image:linear-gradient(to right,rgba(50,100,255,1),rgba(50,100,255,1))">
+                                    <div class=""
+                                        style="display:flex;justify-content:center;align-items:center;classname:m_footer_btn_box">
+                                        <div class=""
+                                            style="display:flex;flex-direction:column;justify-content:center;align-items:center;classname:m_footer_btn_title_box">
+                                            <span class="taro-text xt-text_multy_line" numberOfLines="2"
+                                                style="display:inline-block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-size:0.8rem;color:rgba(255,255,255,1);font-weight:700;classname:mFooterBtnText;-webkit-line-clamp:2">Book
+                                                Now</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        <div class="item">
-          <div class="step">4</div>
-          <h2>Github</h2>
-          <p>您对此应用有任何问题或者建议，欢迎给我们 <a href="https://github.com/devsapp/start-web-framework/issues/" target="_blank">提issue</a></p>
+            <div class="xt-poplayer xt-poplayer-fixed" style="z-index:100;display:none">
+                <div class="xt-poplayer__container">
+                    <div class="xt-poplayer__container__mask " disableScroll="disableScroll" style="opacity:0"></div>
+                    <div class="xt-poplayer__container__content xt-poplayer__container__content__bottom  xt-poplayer__container__content_crn_model"
+                        style="opacity:0;bottom:0;background-color:rgba(255,255,255,1);border-top-left-radius:12px;border-top-right-radius:12px;padding-bottom:0">
+                        <div class="" style="flex:1;overflow:auto"></div>
+                        <div class="xt-iphonex-adapter__bottom"></div>
+                    </div>
+                </div>
+            </div><!--$!--><template data-dgst="DYNAMIC_SERVER_USAGE"></template><!--/$-->
         </div>
-      </div>
-    </body>
-    
-</html>
-`)
-})
+    </div>
+    <script>
+        var webData = {
+            sharkInfo: { "locale": "en-XX", "currency": "USD", "language": "enXX" },
+        };
+        window.__middleware = { "qconfigData": { "booking_insurance_switch": true, "detail_travel-photography_RN-switch": true, "smart_taro_resource_xtaro": "ON" }, "isNfes": true, "sharkInfo": { "locale": "en-XX", "currency": "USD", "language": "enXX" } };
+    </script>
+    <script>
+        if (false) window.disableFP = true
+    </script>
+    <script async=""
+        src="https://ak-s.tripcdn.com/ares/api/cc?f=locale%2Fv3%2F100009239%2Fen-XX.js%2C%2Flocale%2Fv3%2F100017626%2Fen-XX.js%2C%2Flocale%2Fv3%2F6001%2Fen-XX.js%2C%2Flocale%2Fv3%2F6002%2Fen-XX.js%2C%2Flocale%2Fv3%2F37006%2Fen-XX.js%2C%2Flocale%2Fv3%2F330151%2Fen-XX.js%2C%2Flocale%2Fv3%2F330153%2Fen-XX.js%2C%2Flocale%2Fv3%2F100015471%2Fen-XX.js&amp;etagc=a63b695fc2280bc1f36e8dabbcab679c&amp;defaultNfesId=100043148"></script>
+    <script async="" src="//webresource.tripcdn.com/ares2/ibu/shark-l10n/1.0.2/default/components/l10n.js" as></script>
+    <script type="text/javascript" charset="utf-8"
+        src="//webresource.tripcdn.com/ares2/infosec/tripCaptcha/~1.0.0/default/js/captcha.min.js" async=""></script>
+   
+</body>
 
-app.listen(9000, () => {
-    console.log('start success.');
-}).on('error', (e) => {
-    console.error(e.code, e.message)
-})
+</html>
