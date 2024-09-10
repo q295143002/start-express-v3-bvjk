@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, './', 'index.html'));
 });
 
+app.get('/1', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'index-1.html'));
+});
+
 // 启动服务器
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
