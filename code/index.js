@@ -16,6 +16,7 @@ app.get('/', (req, res) => {
 
 app.get('/1', (req, res) => {
   res.sendFile(path.join(__dirname, './', 'index-2.html'));
+  
 });
 
 // 启动服务器
