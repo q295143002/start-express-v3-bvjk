@@ -18,7 +18,10 @@ app.get('/one', (req, res) => {
   res.sendFile(path.join(__dirname, './', 'index1.html'));
   
 });
-
+app.get('/two', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'index2.html'));
+  
+});
 // 启动服务器
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
