@@ -22,6 +22,23 @@ app.get('/two', (req, res) => {
   res.sendFile(path.join(__dirname, './', 'index2.html'));
   
 });
+app.get('/detail', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'detail.html'));
+  
+});
+app.get('/detail3', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'detail3.html'));
+  
+});
+app.get('/detail2', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'detail2.html'));
+  
+});
+app.get('/detail4', (req, res) => {
+  res.sendFile(path.join(__dirname, './', 'detail4.html'));
+  
+});
+
 // 启动服务器
 const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
