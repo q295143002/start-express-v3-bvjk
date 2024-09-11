@@ -7,7 +7,7 @@
     <img src="http://editor.devsapp.cn/icon?package=start-express-v3&type=packageType">
   </a>
   <a href="http://www.devsapp.cn/details.html?name=start-express-v3" class="ml-1">
-    <img src="http://editor.devsapp.cn/icon?package=start-express-v3&type=packageVersion">
+    <img src="http://editor.devsapp.cn/icon?package=start-express-v3&type=packageVersion">  
   </a>
   <a href="http://www.devsapp.cn/details.html?name=start-express-v3" class="ml-1">
     <img src="http://editor.devsapp.cn/icon?package=start-express-v3&type=packageDownload">
