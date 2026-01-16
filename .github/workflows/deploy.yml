@@ -1,0 +1,27 @@
+name: Deploy to Aliyun
+
+on:
+  push:
+    branches:
+      - main  # 只有推送到 main 分支时才触发部署
+
+jobs:
+  deploy-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 把你的代码从 GitHub 下载到虚拟执行环境
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # 2. 通过 SSH 将文件同步到阿里云服务器
+      - name: Sync Files to Aliyun
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          ARGS: "-rlgoDzvc -i --delete" # 增量同步，并删除服务器上多余的文件
+          SOURCE: "./" # 你要上传的代码目录（当前目录）
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          TARGET: "/usr/share/nginx/html/aitripai" # 刚才我们在 CentOS 上创建的目录
+          EXCLUDE: "/.git/, /.github/" # 排除掉这些文件夹，不传到服务器上
