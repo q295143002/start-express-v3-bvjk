@@ -3,7 +3,7 @@ name: Deploy to Aliyun
 on:
   push:
     branches:
-      - main  # 只有推送到 main 分支时才触发部署
+      - master  # 只有推送到 main 分支时才触发部署
 
 jobs:
   deploy-job:
